@@ -25,20 +25,20 @@
 
         if (Occurrence != null)
         {
-            foreach (var pessoaId in personIds)
+            foreach (var personID in personIds)
             {
-                var pessoa = persons.FirstOrDefault(p => p.Id == pessoaId);
-                if (pessoa != null)
-                    Occurrence.AddPersons(pessoa);
+                var person = persons.FirstOrDefault(p => p.Id == personID);
+                if (person != null)
+                    Occurrence.AddPersons(person);
             }
 
             foreach (var equipmentId in equipmentIds)
             {
-                var equipamento = equipments.FirstOrDefault(e => e.Id == equipmentId);
-                if (equipamento != null && equipamento.Available)
+                var equipment = equipments.FirstOrDefault(e => e.Id == equipmentId);
+                if (equipment != null && equipment.Available)
                 {
-                    equipamento.Use();
-                    Occurrence.AddEquipment(equipamento);
+                    equipment.Use();
+                    Occurrence.AddEquipment(equipment);
                 }
             }
         }
