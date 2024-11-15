@@ -1,4 +1,5 @@
-﻿public class Equipment
+﻿namespace POO_Equipment;
+public class Equipment
 {
     public int Id { get; set; }
     public string Name { get; set; }

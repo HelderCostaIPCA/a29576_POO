@@ -1,4 +1,9 @@
-﻿public class ResourceManagement
+﻿using POO_Persons;
+using POO_Equipment;
+using POO_Occurrence;
+
+namespace POO_ResourceManagement;
+public class ResourceManagement
 {
     private List<Occurrence> occurrences = new List<Occurrence>();
     private List<Persons> persons = new List<Persons>();

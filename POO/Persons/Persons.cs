@@ -1,4 +1,5 @@
-﻿public abstract class Persons
+﻿namespace POO_Persons;
+public abstract class Persons
 {
     public int Id { get; set; }
     public string Name { get; set; }

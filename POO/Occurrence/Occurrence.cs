@@ -1,4 +1,8 @@
-﻿public class Occurrence
+﻿using POO_Equipment;
+using POO_Persons;
+
+namespace POO_Occurrence;
+public class Occurrence
 {
     public int Id { get; set; }
     public string Localization { get; set; }
