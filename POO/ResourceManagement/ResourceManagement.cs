@@ -1,4 +1,4 @@
-﻿using POO_Persons;
+﻿using POO_Resources;
 using POO_Equipment;
 using POO_Occurrence;
 
@@ -6,7 +6,7 @@ namespace POO_ResourceManagement;
 public class ResourceManagement
 {
     private List<Occurrence> occurrences = new List<Occurrence>();
-    private List<Persons> persons = new List<Persons>();
+    private List<Resources> resources = new List<Resources>();
     private List<Equipment> equipments = new List<Equipment>();
 
     public void AdicionarOccurrence(Occurrence Occurrence)
@@ -14,9 +14,9 @@ public class ResourceManagement
         occurrences.Add(Occurrence);
     }
 
-    public void AddPersons(Persons Persons)
+    public void AddResources(Resources Resources)
     {
-        persons.Add(Persons);
+        resources.Add(Resources);
     }
 
     public void AddEquipament(Equipment Equipment)
@@ -24,17 +24,17 @@ public class ResourceManagement
         equipments.Add(Equipment);
     }
 
-    public void AddResources(int OccurrenceId, List<int> personIds, List<int> equipmentIds)
+    public void AddResources(int OccurrenceId, List<int> resourcesIds, List<int> equipmentIds)
     {
         var Occurrence = occurrences.FirstOrDefault(o => o.Id == OccurrenceId);
 
         if (Occurrence != null)
         {
-            foreach (var personID in personIds)
+            foreach (var resourceID in resourcesIds)
             {
-                var person = persons.FirstOrDefault(p => p.Id == personID);
-                if (person != null)
-                    Occurrence.AddPersons(person);
+                var resource = resources.FirstOrDefault(p => p.Id == resourceID);
+                if (resource != null)
+                    Occurrence.AddResources(resource);
             }
 
             foreach (var equipmentId in equipmentIds)
