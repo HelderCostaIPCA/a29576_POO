@@ -9,7 +9,7 @@ namespace POO
 
         private void bt_resources_click(object sender, EventArgs e)
         {
-            Resources Resources = new Resources(); 
+            Form_Resources Resources = new Form_Resources(); 
             Resources.Show();
         }
     }
