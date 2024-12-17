@@ -53,7 +53,7 @@ namespace POO_Resources
             List<Resources> lista = new List<Resources>();
             using (SqlConnection conexao = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Resources";
+                string query = "SELECT Id, Name, NIF, [Date of Birth] AS DateOfBirth, Household, [Zip Code] AS ZipCode, City, [ID Resource Type] AS Type FROM Resources";
                 SqlCommand comando = new SqlCommand(query, conexao);
 
                 conexao.Open();
@@ -63,13 +63,13 @@ namespace POO_Resources
                 {
                     DateTime dateOfBirth = leitor["DateOfBirth"] != DBNull.Value
                         ? Convert.ToDateTime(leitor["DateOfBirth"])
-                        : DateTime.MinValue;  // Ou outro valor padrão, se necessário
+                        : DateTime.MinValue;
 
                     Resources recurso = new DerivedResources(
                         Convert.ToInt32(leitor["Id"]),
                         leitor["Name"].ToString(),
                         Convert.ToInt32(leitor["NIF"]),
-                        dateOfBirth,  // Usando o valor verificado
+                        dateOfBirth,
                         leitor["Household"].ToString(),
                         leitor["ZipCode"].ToString(),
                         leitor["City"].ToString(),
@@ -95,15 +95,19 @@ namespace POO_Resources
 
                 if (leitor.Read())
                 {
+                    DateTime dateOfBirth = leitor["Date of Birth"] != DBNull.Value
+                        ? DateTime.Parse(leitor["Date of Birth"].ToString())
+                        : DateTime.MinValue;
+
                     recurso = new DerivedResources(
                         Convert.ToInt32(leitor["Id"]),
                         leitor["Name"].ToString(),
                         Convert.ToInt32(leitor["NIF"]),
-                        Convert.ToDateTime(leitor["DateOfBirth"]),
+                        dateOfBirth,
                         leitor["Household"].ToString(),
                         leitor["ZipCode"].ToString(),
                         leitor["City"].ToString(),
-                        Convert.ToInt32(leitor["Type"])
+                        Convert.ToInt32(leitor["ID Resource Type"]) // Nome correto da coluna
                     );
                 }
             }

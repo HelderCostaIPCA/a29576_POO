@@ -46,7 +46,11 @@ namespace POO_ZipCodes
                 throw new Exception("Erro ao obter os códigos postais: " + ex.Message);
             }
 
+            // Depuração: Exibir o conteúdo carregado
+            MessageBox.Show($"Códigos postais carregados: {zipCodes.Count}");
+
             return zipCodes;
         }
+
     }
 }

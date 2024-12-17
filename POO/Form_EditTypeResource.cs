@@ -22,7 +22,7 @@ namespace POO
             TypeResourceId = typeresourceId;
         }
 
-        private void Form_Edit_Resource_Load(object sender, EventArgs e)
+        private void Form_EditTypeResource_Load(object sender, EventArgs e)
         {
             if (TypeResourceId.HasValue)
             {
@@ -80,6 +80,16 @@ namespace POO
             {
                 MessageBox.Show("Erro ao guardar o recurso: " + ex.Message);
             }
+        }
+
+        private void btx_close_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void btx_minimize_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
