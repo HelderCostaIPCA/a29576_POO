@@ -1,6 +1,6 @@
-﻿using POO_Resources;
-using POO_ZipCodes;
-using POO_TypeResource;
+﻿using POO.Resources;
+using POO.ZipCodes;
+using POO.TypeResources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,11 +14,11 @@ using System.Xml.Linq;
 
 namespace POO
 {
-    public partial class Form_Edit_Resource : Form
+    public partial class Form_EditResource : Form
     {
         public int? ResourceId { get; set; }
 
-        public Form_Edit_Resource(int? resourceId = null)
+        public Form_EditResource(int? resourceId = null)
         {
             InitializeComponent();
             ResourceId = resourceId;
@@ -37,7 +37,7 @@ namespace POO
         {
             try
             {
-                List<ZipCodes> zipCodes = ZipCodes.GetZipCodes();
+                List<ZipCode> zipCodes = ZipCode.GetZipCodes();
                 cbx_zipcode.DataSource = zipCodes;
                 cbx_zipcode.DisplayMember = "CodigoPostal";
                 cbx_zipcode.ValueMember = "CodigoPostal";
@@ -73,77 +73,80 @@ namespace POO
         {
             try
             {
-                Resources recurso = Resources.ReadById(id);
+                Resource recurso = Resource.ReadById(id);
+
+                if (recurso == null)
+                {
+                    MessageBox.Show("Recurso não encontrado.");
+                    return;
+                }
 
                 txt_id.Text = recurso.Id.ToString();
                 txt_name.Text = recurso.Name;
                 txt_nif.Text = recurso.NIF.ToString();
-
-                // Garantir que a data é válida antes de atribuir
-                if (recurso.DateOfBirth > DateTimePicker.MinimumDateTime)
-                {
-                    dt_dateofbirth.Value = recurso.DateOfBirth;
-                    dt_dateofbirth.Checked = true; // Marca a data
-                }
-                else
-                {
-                    dt_dateofbirth.Checked = false; // Deixa a data "não definida"
-                }
-
                 txt_household.Text = recurso.Household;
                 txt_city.Text = recurso.City;
 
-                // Debug: Mostrando o valor do ZipCode
-                Console.WriteLine($"ZipCode de recurso: '{recurso.ZipCode}'");
+                if (recurso.DateOfBirth > DateTimePicker.MinimumDateTime)
+                {
+                    dt_dateofbirth.Value = recurso.DateOfBirth;
+                    dt_dateofbirth.Checked = true;
+                }
+                else
+                {
+                    dt_dateofbirth.Checked = false;
+                }
 
-                // 1. Primeiro verificamos se o ZipCode é nulo ou vazio.
+                // Carregar os códigos postais e selecionar o correto
+                List<ZipCode> zipCodesList = ZipCode.GetZipCodes();
+
+                if (zipCodesList == null)
+                {
+                    MessageBox.Show("Erro: Lista de códigos postais está vazia ou não encontrada.");
+                    return;
+                }
+
+                Console.WriteLine($"Total de códigos postais: {zipCodesList.Count}");
+
                 if (!string.IsNullOrWhiteSpace(recurso.ZipCode))
                 {
-                    // 2. Comparação usando o método Trim() para remover espaços extras
-                    var zipCode = ZipCodes.GetZipCodes()
-                        .FirstOrDefault(z => z.CodigoPostal.Trim() == recurso.ZipCode.Trim());
+                    Console.WriteLine($"Código postal no recurso: {recurso.ZipCode}");
 
-                    if (zipCode != null)
+                    var zipCodeEncontrado = zipCodesList.FirstOrDefault(
+                        z => z.CodigoPostal?.Trim() == recurso.ZipCode?.Trim()
+                    );
+
+                    if (zipCodeEncontrado != null)
                     {
-                        Console.WriteLine($"Código Postal encontrado: {zipCode.CodigoPostal}");
-                        cbx_zipcode.SelectedItem = zipCode;
+                        cbx_zipcode.DataSource = zipCodesList;
+                        cbx_zipcode.DisplayMember = "CodigoPostal";
+                        cbx_zipcode.ValueMember = "CodigoPostal";
+                        cbx_zipcode.SelectedItem = zipCodeEncontrado;
+
+                        Console.WriteLine($"Código postal {zipCodeEncontrado.CodigoPostal} encontrado e selecionado.");
                     }
                     else
                     {
-                        Console.WriteLine($"Código Postal não encontrado: {recurso.ZipCode}");
                         MessageBox.Show($"Código Postal não encontrado: {recurso.ZipCode}");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Código Postal está vazio ou nulo.");
-                }
-
-                // Carregar o tipo de recurso
-                TypeResource selectedType = TypeResource.ReadAll().FirstOrDefault(t => t.Id == recurso.Type);
-                if (selectedType != null)
-                {
-                    Console.WriteLine($"Tipo de Recurso encontrado: {selectedType.Name}");
-                    cbx_typeresource.SelectedItem = selectedType;
-                }
-                else
-                {
-                    Console.WriteLine($"Tipo de Recurso não encontrado para o ID: {recurso.Type}");
+                    MessageBox.Show("Recurso não possui um código postal válido.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao carregar os dados do recurso: " + ex.Message);
+                MessageBox.Show($"Erro ao carregar os dados do recurso: {ex.Message}");
+                Console.WriteLine($"Erro: {ex}");
             }
         }
-
-
 
         private void cbx_zipcode_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cbx_zipcode.SelectedItem != null)
             {
-                ZipCodes zipSelecionado = (ZipCodes)cbx_zipcode.SelectedItem;
+                ZipCode zipSelecionado = (ZipCode)cbx_zipcode.SelectedItem;
                 txt_city.Text = zipSelecionado.Cidade;
             }
         }
@@ -202,16 +205,6 @@ namespace POO
         private void label6_Click(object sender, EventArgs e)
         {
 
-        }
-
-        private void btx_close_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-         
-        private void btx_minimize_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
         }
 
         private void cbx_typeresource_SelectedIndexChanged(object sender, EventArgs e)

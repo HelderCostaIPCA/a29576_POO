@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace POO_Resources
+namespace POO.Resources
 {
-    public abstract class Resources
+    public abstract class Resource
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -17,7 +17,7 @@ namespace POO_Resources
 
         public static string connectionString = "Data Source=PT-DSI-HC1\\SQLEXPRESS;Initial Catalog=POO_CivilProtection;Integrated Security=True;Encrypt=False;";
 
-        public Resources(int id, string name, int nif, DateTime dateOfBirth, string household, string zipCode, string city, int type)
+        public Resource(int id, string name, int nif, DateTime dateOfBirth, string household, string zipCode, string city, int type)
         {
             Id = id;
             Name = name;
@@ -48,9 +48,9 @@ namespace POO_Resources
             }
         }
 
-        public static List<Resources> ReadAll()
+        public static List<Resource> ReadAll()
         {
-            List<Resources> lista = new List<Resources>();
+            List<Resource> lista = new List<Resource>();
             using (SqlConnection conexao = new SqlConnection(connectionString))
             {
                 string query = "SELECT Id, Name, NIF, [Date of Birth] AS DateOfBirth, Household, [Zip Code] AS ZipCode, City, [ID Resource Type] AS Type FROM Resources";
@@ -65,7 +65,7 @@ namespace POO_Resources
                         ? Convert.ToDateTime(leitor["DateOfBirth"])
                         : DateTime.MinValue;
 
-                    Resources recurso = new DerivedResources(
+                    Resource recurso = new DerivedResources(
                         Convert.ToInt32(leitor["Id"]),
                         leitor["Name"].ToString(),
                         Convert.ToInt32(leitor["NIF"]),
@@ -81,9 +81,9 @@ namespace POO_Resources
 
             return lista;
         }
-        public static Resources ReadById(int id)
+        public static Resource ReadById(int id)
         {
-            Resources recurso = null;
+            Resource recurso = null;
             using (SqlConnection conexao = new SqlConnection(connectionString))
             {
                 string query = "SELECT * FROM Resources WHERE Id = @Id";
@@ -148,7 +148,7 @@ namespace POO_Resources
         }
     }
 
-    public class DerivedResources : Resources
+    public class DerivedResources : Resource
     {
         public DerivedResources(int id, string name, int nif, DateTime dateOfBirth, string household, string zipCode, string city, int type)
             : base(id, name, nif, dateOfBirth, household, zipCode, city, type) { }

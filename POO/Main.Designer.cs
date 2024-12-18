@@ -45,6 +45,7 @@ namespace POO
             btx_typeresource = new PictureBox();
             btx_resourcecontrol = new PictureBox();
             dataGridView1 = new DataGridView();
+            btx_equipment = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)btx_users).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btx_resources).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btx_cvprotection).BeginInit();
@@ -60,6 +61,7 @@ namespace POO
             ((System.ComponentModel.ISupportInitialize)btx_typeresource).BeginInit();
             ((System.ComponentModel.ISupportInitialize)btx_resourcecontrol).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btx_equipment).BeginInit();
             SuspendLayout();
             // 
             // btx_users
@@ -67,7 +69,7 @@ namespace POO
             btx_users.BackColor = Color.Transparent;
             btx_users.Cursor = Cursors.Hand;
             btx_users.Image = (Image)resources.GetObject("btx_users.Image");
-            btx_users.Location = new Point(501, 345);
+            btx_users.Location = new Point(537, 345);
             btx_users.Name = "btx_users";
             btx_users.Size = new Size(58, 61);
             btx_users.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -80,7 +82,7 @@ namespace POO
             btx_resources.BackColor = Color.Transparent;
             btx_resources.Cursor = Cursors.Hand;
             btx_resources.Image = (Image)resources.GetObject("btx_resources.Image");
-            btx_resources.Location = new Point(211, 345);
+            btx_resources.Location = new Point(183, 345);
             btx_resources.Name = "btx_resources";
             btx_resources.Size = new Size(66, 61);
             btx_resources.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -94,20 +96,21 @@ namespace POO
             btx_cvprotection.BackColor = Color.Transparent;
             btx_cvprotection.Cursor = Cursors.Hand;
             btx_cvprotection.Image = (Image)resources.GetObject("btx_cvprotection.Image");
-            btx_cvprotection.Location = new Point(429, 345);
+            btx_cvprotection.Location = new Point(401, 345);
             btx_cvprotection.Name = "btx_cvprotection";
             btx_cvprotection.Size = new Size(66, 61);
             btx_cvprotection.SizeMode = PictureBoxSizeMode.StretchImage;
             btx_cvprotection.TabIndex = 7;
             btx_cvprotection.TabStop = false;
             btx_cvprotection.Tag = "";
+            btx_cvprotection.Click += btx_cvprotection_Click;
             // 
             // btx_occurrences
             // 
             btx_occurrences.BackColor = Color.Transparent;
             btx_occurrences.Cursor = Cursors.Hand;
             btx_occurrences.Image = (Image)resources.GetObject("btx_occurrences.Image");
-            btx_occurrences.Location = new Point(283, 345);
+            btx_occurrences.Location = new Point(255, 345);
             btx_occurrences.Name = "btx_occurrences";
             btx_occurrences.Size = new Size(66, 61);
             btx_occurrences.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -121,13 +124,14 @@ namespace POO
             btx_fireman.BackColor = Color.Transparent;
             btx_fireman.Cursor = Cursors.Hand;
             btx_fireman.Image = (Image)resources.GetObject("btx_fireman.Image");
-            btx_fireman.Location = new Point(355, 345);
+            btx_fireman.Location = new Point(327, 345);
             btx_fireman.Name = "btx_fireman";
             btx_fireman.Size = new Size(66, 61);
             btx_fireman.SizeMode = PictureBoxSizeMode.StretchImage;
             btx_fireman.TabIndex = 9;
             btx_fireman.TabStop = false;
             btx_fireman.Tag = "";
+            btx_fireman.Click += btx_fireman_Click;
             // 
             // ptbox_main
             // 
@@ -163,11 +167,11 @@ namespace POO
             gpx_resource.Controls.Add(btx_typeresource);
             gpx_resource.Controls.Add(btx_resourcecontrol);
             gpx_resource.Controls.Add(dataGridView1);
-            gpx_resource.Location = new Point(22, 10);
+            gpx_resource.Location = new Point(10, 10);
             gpx_resource.Margin = new Padding(1);
             gpx_resource.Name = "gpx_resource";
             gpx_resource.Padding = new Padding(1);
-            gpx_resource.Size = new Size(665, 331);
+            gpx_resource.Size = new Size(748, 331);
             gpx_resource.TabIndex = 14;
             gpx_resource.TabStop = false;
             gpx_resource.Text = "Gestão Recursos";
@@ -189,7 +193,7 @@ namespace POO
             // 
             btx_update.Cursor = Cursors.Hand;
             btx_update.Image = (Image)resources.GetObject("btx_update.Image");
-            btx_update.Location = new Point(573, 288);
+            btx_update.Location = new Point(645, 288);
             btx_update.Name = "btx_update";
             btx_update.Size = new Size(41, 39);
             btx_update.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -201,7 +205,7 @@ namespace POO
             // 
             btx_delete.Cursor = Cursors.Hand;
             btx_delete.Image = (Image)resources.GetObject("btx_delete.Image");
-            btx_delete.Location = new Point(526, 288);
+            btx_delete.Location = new Point(598, 288);
             btx_delete.Name = "btx_delete";
             btx_delete.Size = new Size(41, 39);
             btx_delete.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -213,7 +217,7 @@ namespace POO
             // 
             btx_new.Cursor = Cursors.Hand;
             btx_new.Image = (Image)resources.GetObject("btx_new.Image");
-            btx_new.Location = new Point(620, 288);
+            btx_new.Location = new Point(692, 288);
             btx_new.Name = "btx_new";
             btx_new.Size = new Size(41, 39);
             btx_new.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -247,14 +251,27 @@ namespace POO
             // 
             // dataGridView1
             // 
-            dataGridView1.BackgroundColor = SystemColors.ActiveBorder;
+            dataGridView1.BackgroundColor = Color.FromArgb(188, 203, 217);
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridView1.Location = new Point(12, 71);
             dataGridView1.Margin = new Padding(1);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 123;
-            dataGridView1.Size = new Size(649, 209);
+            dataGridView1.Size = new Size(723, 209);
             dataGridView1.TabIndex = 3;
+            // 
+            // btx_equipment
+            // 
+            btx_equipment.BackColor = Color.Transparent;
+            btx_equipment.Cursor = Cursors.Hand;
+            btx_equipment.Image = (Image)resources.GetObject("btx_equipment.Image");
+            btx_equipment.Location = new Point(473, 345);
+            btx_equipment.Name = "btx_equipment";
+            btx_equipment.Size = new Size(58, 61);
+            btx_equipment.SizeMode = PictureBoxSizeMode.StretchImage;
+            btx_equipment.TabIndex = 15;
+            btx_equipment.TabStop = false;
+            btx_equipment.Click += btx_equipment_Click;
             // 
             // Main
             // 
@@ -264,6 +281,7 @@ namespace POO
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(768, 455);
+            Controls.Add(btx_equipment);
             Controls.Add(gpx_resource);
             Controls.Add(btx_exit);
             Controls.Add(ptbox_main);
@@ -272,10 +290,12 @@ namespace POO
             Controls.Add(btx_cvprotection);
             Controls.Add(btx_resources);
             Controls.Add(btx_users);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(1);
+            MaximizeBox = false;
             Name = "Main";
             Text = "Menu Principal";
-            Click += btn_create_Click;
+            Load += Main_Load;
             ((System.ComponentModel.ISupportInitialize)btx_users).EndInit();
             ((System.ComponentModel.ISupportInitialize)btx_resources).EndInit();
             ((System.ComponentModel.ISupportInitialize)btx_cvprotection).EndInit();
@@ -291,6 +311,7 @@ namespace POO
             ((System.ComponentModel.ISupportInitialize)btx_typeresource).EndInit();
             ((System.ComponentModel.ISupportInitialize)btx_resourcecontrol).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btx_equipment).EndInit();
             ResumeLayout(false);
         }
 
@@ -319,5 +340,6 @@ namespace POO
         private PictureBox btx_delete;
         private PictureBox btx_new;
         private PictureBox btx_home;
+        private PictureBox btx_equipment;
     }
 }

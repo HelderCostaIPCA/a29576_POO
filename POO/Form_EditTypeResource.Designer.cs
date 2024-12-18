@@ -115,6 +115,8 @@
             Controls.Add(label1);
             Controls.Add(txt_name);
             Controls.Add(cbx_Enable);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "Form_EditTypeResource";
             Text = "Editar Tipo Recurso";
             Load += Form_EditTypeResource_Load;

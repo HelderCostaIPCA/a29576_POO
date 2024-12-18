@@ -1,10 +1,10 @@
-﻿using POO_Equipment;
-using POO_Resources;
+﻿using POO.Equipments;
+using POO.Resources;
 using System;
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 
-namespace POO_Occurrence
+namespace POO.Occurrences
 {
     public class Occurrence
     {
@@ -14,7 +14,7 @@ namespace POO_Occurrence
         public string Coordinates { get; set; }
         public string ZipCode { get; set; }
         public DateTime Date { get; set; }
-        public List<Resources> AllocatedResources { get; set; } = new List<Resources>();
+        public List<Resource> AllocatedResources { get; set; } = new List<Resource>();
         public List<Equipment> AllocatedEquipments { get; set; } = new List<Equipment>();
 
         public static string connectionString = "Data Source=PT-DSI-HC1\\SQLEXPRESS;Initial Catalog=POO_CivilProtection;Integrated Security=True;Encrypt=False;";
@@ -29,7 +29,7 @@ namespace POO_Occurrence
             Date = DateTime.Now;
         }
 
-        public void AddResources(Resources resources)
+        public void AddResources(Resource resources)
         {
             AllocatedResources.Add(resources);
         }

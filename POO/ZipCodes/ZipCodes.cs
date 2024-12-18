@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace POO_ZipCodes
+namespace POO.ZipCodes
 {
-    public class ZipCodes
+    public class ZipCode
     {
         public string CodigoPostal { get; set; }
         public string Cidade { get; set; }
@@ -16,9 +16,9 @@ namespace POO_ZipCodes
             return CodigoPostal;
         }
 
-        public static List<ZipCodes> GetZipCodes()
+        public static List<ZipCode> GetZipCodes()
         {
-            List<ZipCodes> zipCodes = new List<ZipCodes>();
+            List<ZipCode> zipCodes = new List<ZipCode>();
 
             try
             {
@@ -32,7 +32,7 @@ namespace POO_ZipCodes
 
                         while (reader.Read())
                         {
-                            zipCodes.Add(new ZipCodes
+                            zipCodes.Add(new ZipCode
                             {
                                 CodigoPostal = reader["Zip Code"].ToString(),
                                 Cidade = reader["City"].ToString()
@@ -45,10 +45,6 @@ namespace POO_ZipCodes
             {
                 throw new Exception("Erro ao obter os códigos postais: " + ex.Message);
             }
-
-            // Depuração: Exibir o conteúdo carregado
-            MessageBox.Show($"Códigos postais carregados: {zipCodes.Count}");
-
             return zipCodes;
         }
 

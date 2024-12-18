@@ -1,12 +1,12 @@
-﻿using POO_Resources;
-using POO_Equipment;
-using POO_Occurrence;
+﻿using POO.Resources;
+using POO.Equipments;
+using POO.Occurrences;
 
-namespace POO_ResourceManagement;
+namespace POO.ResourceManagement;
 public class ResourceManagement
 {
     private List<Occurrence> occurrences = new List<Occurrence>();
-    private List<Resources> resources = new List<Resources>();
+    private List<Resource> resources = new List<Resource>();
     private List<Equipment> equipments = new List<Equipment>();
 
     public void AdicionarOccurrence(Occurrence Occurrence)
@@ -14,7 +14,7 @@ public class ResourceManagement
         occurrences.Add(Occurrence);
     }
 
-    public void AddResources(Resources Resources)
+    public void AddResources(Resource Resources)
     {
         resources.Add(Resources);
     }
@@ -42,7 +42,7 @@ public class ResourceManagement
                 var equipment = equipments.FirstOrDefault(e => e.Id == equipmentId);
                 if (equipment != null && equipment.Available)
                 {
-                    equipment.Use();
+                    //equipments.Use();
                     Occurrence.AddEquipment(equipment);
                 }
             }

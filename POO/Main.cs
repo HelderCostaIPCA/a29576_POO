@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using POO_Occurrence;
-using POO_Resources;
-using POO_TypeResource;
-using POO_User;
+using System.Collections;
+using static System.ComponentModel.Design.ObjectSelectorEditor;
 
 namespace POO
 {
@@ -14,326 +12,171 @@ namespace POO
         {
             InitializeComponent();
         }
-
-        public bool ResourceSelected;
-        public bool TypeResourceSelected;
-        public bool OccurrenceSelected;
-        public bool UsersSelected;
+        public string selected;
         private void Load_DataGridViewResource()
         {
-            try
-            {
-                List<Resources> lista = Resources.ReadAll();
-                dataGridView1.DataSource = null;
-                dataGridView1.DataSource = lista;
-
-                if (dataGridView1.Columns["DateOfBirth"] != null)
-                {
-                    dataGridView1.Columns["DateOfBirth"].DefaultCellStyle.Format = "dd/MM/yyyy";
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao carregar os dados: " + ex.Message);
-            }
+            ResourcesController.LoadResources(dataGridView1);
         }
-        private void LoadDataGridViewTypeResource()
+        private void Load_DataGridViewTypeResource()
         {
-            try
-            {
-                List<TypeResource> lista = TypeResource.ReadAll();
-
-                var table = new System.Data.DataTable();
-                table.Columns.Add("Id", typeof(int));
-                table.Columns.Add("Name", typeof(string));
-                table.Columns.Add("Enable", typeof(bool));
-
-                foreach (var item in lista)
-                {
-                    table.Rows.Add(item.Id, item.Name, item.Enable);
-                }
-
-                dataGridView1.DataSource = table;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao carregar os dados: " + ex.Message);
-            }
+            TypeResourceController.LoadTypeResources(dataGridView1);
         }
 
         private void Load_DataGridViewOccurrence()
         {
-            try
-            {
-                List<Occurrence> occurrences = Occurrence.GetAllOccurrences();
-                dataGridView1.DataSource = null;
-                dataGridView1.DataSource = occurrences;
-
-                // Formatando a coluna de data, se necessário
-                if (dataGridView1.Columns["Date"] != null)
-                {
-                    dataGridView1.Columns["Date"].DefaultCellStyle.Format = "dd/MM/yyyy";
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao carregar as ocorrências: " + ex.Message);
-            }
+            OccurrencesController.LoadOccurrences(dataGridView1);
         }
 
         private void Load_DataGridViewUsers()
         {
-            try
-            {
-                // Obtem todos os usuários usando o método GetAllUsers
-                List<User> users = User.GetAllUsers();
-
-                // Configura a fonte de dados do DataGridView
-                dataGridView1.DataSource = null; // Limpa o DataGridView
-                dataGridView1.DataSource = users; // Seta a lista de usuários no DataGridView
-
-                // Ajusta as colunas do DataGridView para mostrar apenas as propriedades desejadas
-                dataGridView1.Columns["Password"].Visible = false; // Oculta a coluna de senhas por segurança
-                dataGridView1.Columns["Id"].HeaderText = "ID";
-                dataGridView1.Columns["Username"].HeaderText = "Username";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao carregar os utilizadores: " + ex.Message);
-            }
+            UsersController.LoadUsers(dataGridView1);
         }
+
+        private void Load_DataGridViewFiremen()
+        {
+            FiremenController.LoadFiremen(dataGridView1);
+        }
+
+        private void Load_DataGridViewCivilProtections()
+        {
+            CivilProtectionController.LoadCivilProtections(dataGridView1);
+        }
+
+        private void Load_DataGridViewEquipments()
+        {
+            EquipmentController.LoadEquipments(dataGridView1);
+        }
+
+        private void Load_DataGridViewTypeEquipment()
+        {
+            TypeEquipmentController.LoadTypeEquipments(dataGridView1);
+        }
+
+        private void Load_DataGridViewTypeOccurrence()
+        {
+            TypeOccurrenceController.LoadTypeOccurrences(dataGridView1);
+        }
+
+
         private void bt_resources_click(object sender, EventArgs e)
         {
             Load_DataGridViewResource();
             btx_resources.BorderStyle = BorderStyle.Fixed3D;
             btx_resourcecontrol.BorderStyle = BorderStyle.Fixed3D;
+            btx_users.BorderStyle = BorderStyle.None;
             btx_occurrences.BorderStyle = BorderStyle.None;
+            btx_cvprotection.BorderStyle = BorderStyle.None;
+            btx_fireman.BorderStyle = BorderStyle.None;
             btx_typeresource.Visible = true;
             btx_resourcecontrol.Visible = true;
-            ResourceSelected = true;
-            TypeResourceSelected = false;
-            OccurrenceSelected = false;
+            btx_resourcecontrol.Image = Image.FromFile("C:\\Users\\helder costa\\OneDrive - Instituto Politécnico do Cávado e do Ave\\IPCA\\Segundo Ano 24-25\\Primeiro Semestre\\Programação Orientada a Objetos\\TrabalhoFinal\\POO\\POO\\Img\\managementresource.png");
+            btx_typeresource.Image = Image.FromFile("C:\\Users\\helder costa\\OneDrive - Instituto Politécnico do Cávado e do Ave\\IPCA\\Segundo Ano 24-25\\Primeiro Semestre\\Programação Orientada a Objetos\\TrabalhoFinal\\POO\\POO\\Img\\typeresource.png");
+            selected = "ResourceSelected";
             gpx_resource.Text = "Gestão Recursos";
             gpx_resource.Visible = true;
 
         }
-
-        private void btx_close_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void btx_minimize_Click(object sender, EventArgs e)
-        {
-            this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void btn_create_Click(object sender, EventArgs e)
-        {
-            if (ResourceSelected)
-            {
-                Form_Edit_Resource formEdit = new Form_Edit_Resource();
-                var result = formEdit.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    Load_DataGridViewResource();
-                }
-            }
-            if (TypeResourceSelected)
-            {
-                Form_EditTypeResource formEditType = new Form_EditTypeResource();
-                var result = formEditType.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    LoadDataGridViewTypeResource();
-                }
-            }
-            if (OccurrenceSelected)
-            {
-                Form_EditOccurrence formEditOccurrence = new Form_EditOccurrence();
-                var result = formEditOccurrence.ShowDialog();
-                if (result == DialogResult.OK)
-                {
-                    Load_DataGridViewOccurrence();
-                }
-            }
-        }
-
         private void btx_resourcecontrol_Click(object sender, EventArgs e)
         {
-            if (!ResourceSelected)
+
+            if (selected == "TypeResourceSelected")
             {
                 btx_resourcecontrol.BorderStyle = BorderStyle.Fixed3D;
                 btx_typeresource.BorderStyle = BorderStyle.None;
                 dataGridView1.DataSource = null;
                 Load_DataGridViewResource();
-                ResourceSelected = true;
-                TypeResourceSelected = false;
+                selected = "ResourceSelected";
+            }
+            if (selected == "TypeOccurenceSelected")
+            {
+                btx_resourcecontrol.BorderStyle = BorderStyle.Fixed3D;
+                btx_typeresource.BorderStyle = BorderStyle.None;
+                dataGridView1.DataSource = null;
+                Load_DataGridViewOccurrence();
+                selected = "OccurrenceSelected";
+            }
+            if (selected == "TypeEquipmentSelected")
+            {
+                btx_resourcecontrol.BorderStyle = BorderStyle.Fixed3D;
+                btx_typeresource.BorderStyle = BorderStyle.None;
+                dataGridView1.DataSource = null;
+                Load_DataGridViewEquipments();
+                selected = "EquipmentsSelected";
             }
         }
 
         private void btx_typeresource_Click(object sender, EventArgs e)
         {
-            if (!TypeResourceSelected)
+            if (selected == "ResourceSelected")
             {
                 btx_typeresource.BorderStyle = BorderStyle.Fixed3D;
                 btx_resourcecontrol.BorderStyle = BorderStyle.None;
                 dataGridView1.DataSource = null;
-                LoadDataGridViewTypeResource();
-                ResourceSelected = false;
-                TypeResourceSelected = true;
+                Load_DataGridViewTypeResource();
+                selected = "TypeResourceSelected";
+            }
+            if (selected == "OccurrenceSelected")
+            {
+                btx_typeresource.BorderStyle = BorderStyle.Fixed3D;
+                btx_resourcecontrol.BorderStyle = BorderStyle.None;
+                dataGridView1.DataSource = null;
+                Load_DataGridViewTypeOccurrence();
+                selected = "TypeOccurenceSelected";
+            }
+            if (selected == "EquipmentsSelected")
+            {
+                btx_typeresource.BorderStyle = BorderStyle.Fixed3D;
+                btx_resourcecontrol.BorderStyle = BorderStyle.None;
+                dataGridView1.DataSource = null;
+                Load_DataGridViewTypeEquipment();
+                selected = "TypeEquipmentSelected";
             }
         }
 
+        private void btn_create_Click(object sender, EventArgs e)
+        {
+            CreatclickController controller = new CreatclickController();
+            controller.HandleSelection(selected, dataGridView1);
+        }
         private void btn_update_Click(object sender, EventArgs e)
         {
-            if (ResourceSelected)
+            if (Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value) > 0)
             {
-                if (dataGridView1.SelectedRows.Count > 0)
-                {
-                    int selectedId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value);
-                    Form_Edit_Resource formEdit = new Form_Edit_Resource(selectedId);
-                    var result = formEdit.ShowDialog();
-                    if (result == DialogResult.OK)
-                    {
-                        Load_DataGridViewResource();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Selecione um recurso para editar.");
-                }
+                int selectedId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value);
+                UpdateClickController controller = new UpdateClickController();
+                controller.HandleSelection(selected, selectedId, dataGridView1);
             }
-            if (TypeResourceSelected)
+            else
             {
-                if (dataGridView1.SelectedRows.Count > 0)
-                {
-                    int selectedId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value);
-                    Form_EditTypeResource formEdit = new Form_EditTypeResource(selectedId);
-                    var result = formEdit.ShowDialog();
-                    if (result == DialogResult.OK)
-                    {
-                        LoadDataGridViewTypeResource();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Selecione um recurso para editar.");
-                }
-            }
-            if (OccurrenceSelected)
-            {
-                if (dataGridView1.SelectedRows.Count > 0)
-                {
-                    int selectedId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value);
-                    Form_EditOccurrence formEditOccurrence = new Form_EditOccurrence(selectedId);
-                    var result = formEditOccurrence.ShowDialog();
-                    if (result == DialogResult.OK)
-                    {
-                        Load_DataGridViewOccurrence();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Selecione um recurso para editar.");
-                }
+                MessageBox.Show("Selecione o registo a editar!");
             }
         }
 
         private void btn_delete_Click(object sender, EventArgs e)
         {
-            if (ResourceSelected)
+            if (Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value) > 0)
             {
-                try
-                {
-                    DialogResult result = MessageBox.Show("Tem a certeza que pretende eliminar este recurso?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (result == DialogResult.Yes) // Se o usuário clicar em "Sim"
-                    {
-                        if (dataGridView1.SelectedRows.Count > 0)
-                        {
-                            int id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value);
-                            DerivedResources recurso = new DerivedResources(id, "", 0, DateTime.Now, "", "", "", 0);
-                            recurso.Delete();
-                            MessageBox.Show("Recurso excluído com sucesso!");
-                            Load_DataGridViewResource();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Selecione um recurso para excluir.");
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Erro ao excluir o recurso: " + ex.Message);
-                }
+                int selectedId = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value);
+                DeleteClickController controller = new DeleteClickController();
+                controller.HandleSelection(selected, selectedId, dataGridView1);
             }
-            if (TypeResourceSelected)
+            else
             {
-                try
-                {
-                    DialogResult result = MessageBox.Show("Tem a certeza que pretende eliminar este tipo de recurso?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (result == DialogResult.Yes) // Se o usuário clicar em "Sim"
-                    {
-                        if (dataGridView1.SelectedRows.Count > 0)
-                        {
-                            int id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value);
-                            DerivedTypeResources tiporecurso = new DerivedTypeResources(id, "", false);
-                            tiporecurso.Delete();
-                            MessageBox.Show("Recurso excluído com sucesso!");
-                            LoadDataGridViewTypeResource();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Selecione um recurso para excluir.");
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Erro ao excluir o recurso: " + ex.Message);
-                }
-            }
-            if (OccurrenceSelected)
-            {
-                try
-                {
-                    DialogResult result = MessageBox.Show("Tem a certeza que pretende eliminar esta ocorrência?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-
-                    if (result == DialogResult.Yes) // Se o usuário clicar em "Sim"
-                    {
-                        if (dataGridView1.SelectedRows.Count > 0) // Verifica se há uma linha selecionada
-                        {
-                            int id = Convert.ToInt32(dataGridView1.SelectedRows[0].Cells["Id"].Value); // Obtém o ID da ocorrência selecionada
-                            Occurrence.DeleteOccurrence(id); // Chama o método estático para excluir a ocorrência
-                            MessageBox.Show("Ocorrência excluída com sucesso!");
-                            Load_DataGridViewOccurrence(); // Recarrega o DataGridView após a exclusão
-                        }
-                        else
-                        {
-                            MessageBox.Show("Selecione uma ocorrência para excluir.");
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Erro ao excluir a ocorrência: " + ex.Message);
-                }
+                MessageBox.Show("Selecione o registo a eliminar!");
             }
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
 
-            btx_typeresource.BorderStyle = BorderStyle.None;
-            btx_resourcecontrol.BorderStyle = BorderStyle.None;
-            btx_resources.BorderStyle = BorderStyle.None;
+            btx_users.BorderStyle = BorderStyle.None;
             btx_occurrences.BorderStyle = BorderStyle.None;
+            btx_resources.BorderStyle = BorderStyle.None;
+            btx_equipment.BorderStyle = BorderStyle.None;
+            btx_fireman.BorderStyle = BorderStyle.None;
+            btx_cvprotection.BorderStyle = BorderStyle.None;
             dataGridView1.DataSource = null;
-            ResourceSelected = false;
-            TypeResourceSelected = true;
+            selected = "";
             gpx_resource.Visible = false;
 
         }
@@ -341,29 +184,35 @@ namespace POO
         private void btx_occurrences_Click(object sender, EventArgs e)
         {
             Load_DataGridViewOccurrence();
-            btx_occurrences.BorderStyle = BorderStyle.Fixed3D;
             btx_resources.BorderStyle = BorderStyle.None;
-            btx_typeresource.Visible = false;
-            btx_resourcecontrol.Visible = false;
-            ResourceSelected = false;
-            TypeResourceSelected = false;
-            OccurrenceSelected = true;
+            btx_occurrences.BorderStyle = BorderStyle.Fixed3D;
+            btx_resourcecontrol.BorderStyle = BorderStyle.Fixed3D;
+            btx_typeresource.BorderStyle = BorderStyle.None;
+            btx_equipment.BorderStyle = BorderStyle.None;
+            btx_cvprotection.BorderStyle = BorderStyle.None;
+            btx_users.BorderStyle = BorderStyle.None;
+            btx_fireman.BorderStyle = BorderStyle.None;
+            btx_typeresource.Visible = true;
+            btx_resourcecontrol.Visible = true;
+            btx_resourcecontrol.Image = Image.FromFile("C:\\Users\\helder costa\\OneDrive - Instituto Politécnico do Cávado e do Ave\\IPCA\\Segundo Ano 24-25\\Primeiro Semestre\\Programação Orientada a Objetos\\TrabalhoFinal\\POO\\POO\\Img\\occurrence.png");
+            btx_typeresource.Image = Image.FromFile("C:\\Users\\helder costa\\OneDrive - Instituto Politécnico do Cávado e do Ave\\IPCA\\Segundo Ano 24-25\\Primeiro Semestre\\Programação Orientada a Objetos\\TrabalhoFinal\\POO\\POO\\Img\\typeoccurrence.png");
+            selected = "OccurrenceSelected";
             gpx_resource.Text = "Gestão Ocorrências";
             gpx_resource.Visible = true;
         }
 
         private void btx_exit_Click(object sender, EventArgs e)
         {
-            this.Hide(); // Oculta o Form_Main temporariamente
+            this.Hide(); 
 
             Login loginForm = new Login();
-            if (loginForm.ShowDialog() == DialogResult.OK) // Se o login for bem-sucedido
+            if (loginForm.ShowDialog() == DialogResult.OK) 
             {
-                this.Show(); // Reabre o Form_Main
+                this.Show(); 
             }
             else
             {
-                Application.Exit(); // Se o login for cancelado, encerra a aplicação
+                Application.Exit(); 
             }
         }
 
@@ -373,14 +222,70 @@ namespace POO
             btx_users.BorderStyle = BorderStyle.Fixed3D;
             btx_occurrences.BorderStyle = BorderStyle.None;
             btx_resources.BorderStyle = BorderStyle.None;
+            btx_equipment.BorderStyle = BorderStyle.None;
+            btx_fireman.BorderStyle = BorderStyle.None;
+            btx_cvprotection.BorderStyle = BorderStyle.None;
             btx_typeresource.Visible = false;
             btx_resourcecontrol.Visible = false;
-            ResourceSelected = false;
-            TypeResourceSelected = false;
-            OccurrenceSelected = false;
-            UsersSelected = true;
+            selected = "UsersSelected";
             gpx_resource.Text = "Utilizadores";
             gpx_resource.Visible = true;
+        }
+
+        private void btx_fireman_Click(object sender, EventArgs e)
+        {
+            Load_DataGridViewFiremen();
+            btx_users.BorderStyle = BorderStyle.None;
+            btx_occurrences.BorderStyle = BorderStyle.None;
+            btx_resources.BorderStyle = BorderStyle.None;
+            btx_fireman.BorderStyle = BorderStyle.Fixed3D;
+            btx_equipment.BorderStyle = BorderStyle.None;
+            btx_cvprotection.BorderStyle = BorderStyle.None;
+            btx_typeresource.Visible = false;
+            btx_resourcecontrol.Visible = false;
+            gpx_resource.Text = "Bombeiros";
+            gpx_resource.Visible = true;
+        }
+
+        private void btx_cvprotection_Click(object sender, EventArgs e)
+        {
+            Load_DataGridViewCivilProtections();
+            btx_users.BorderStyle = BorderStyle.None;
+            btx_occurrences.BorderStyle = BorderStyle.None;
+            btx_resources.BorderStyle = BorderStyle.None;
+            btx_fireman.BorderStyle = BorderStyle.None;
+            btx_equipment.BorderStyle = BorderStyle.None;
+            btx_cvprotection.BorderStyle = BorderStyle.Fixed3D;
+            btx_typeresource.Visible = false;
+            btx_resourcecontrol.Visible = false;
+            gpx_resource.Text = "Proteção Cívil";
+            gpx_resource.Visible = true;
+
+        }
+
+        private void btx_equipment_Click(object sender, EventArgs e)
+        {
+            Load_DataGridViewEquipments();
+            btx_equipment.BorderStyle = BorderStyle.Fixed3D;
+            btx_users.BorderStyle = BorderStyle.None;
+            btx_resourcecontrol.BorderStyle = BorderStyle.Fixed3D;
+            btx_typeresource.BorderStyle = BorderStyle.None;
+            btx_occurrences.BorderStyle = BorderStyle.None;
+            btx_resources.BorderStyle = BorderStyle.None;
+            btx_fireman.BorderStyle = BorderStyle.None;
+            btx_cvprotection.BorderStyle = BorderStyle.None;
+            btx_typeresource.Visible = true;
+            btx_resourcecontrol.Visible = true;
+            btx_resourcecontrol.Image = Image.FromFile("C:\\Users\\helder costa\\OneDrive - Instituto Politécnico do Cávado e do Ave\\IPCA\\Segundo Ano 24-25\\Primeiro Semestre\\Programação Orientada a Objetos\\TrabalhoFinal\\POO\\POO\\Img\\equipmentsmanagement.png");
+            btx_typeresource.Image = Image.FromFile("C:\\Users\\helder costa\\OneDrive - Instituto Politécnico do Cávado e do Ave\\IPCA\\Segundo Ano 24-25\\Primeiro Semestre\\Programação Orientada a Objetos\\TrabalhoFinal\\POO\\POO\\Img\\typeequipament.png");
+            selected = "EquipmentsSelected";
+            gpx_resource.Text = "Equipamentos";
+            gpx_resource.Visible = true;
+        }
+
+        private void Main_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

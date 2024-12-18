@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
-using POO_User;
+using POO.Controllers;
+using POO.Users;
 
 namespace POO
 {
@@ -10,53 +11,56 @@ namespace POO
         {
             InitializeComponent();
         }
-
-        private void btn_login_Click(object sender, EventArgs e)
+        private void Tbx_Password_KeyDown(object sender, KeyEventArgs e)
         {
-            try
+            if (e.KeyCode == Keys.Enter)
             {
-                string username = txt_username.Text;
-                string password = txt_password.Text;
+                LoginApp();
+            }
+        }
+        private void LoginApp()
+        {
+            string username = txt_username.Text;
+            string password = txt_password.Text;
 
-                // Caso especial para o admin
-                if (username == "admin" && password == "admin")
+            if (LoginController.Authenticate(username, password, out User user))
+            {
+                if (user == null) 
                 {
-                    MessageBox.Show("Login de administrador bem-sucedido!");
                     OpenMainForm();
-                    return;
-                }
-
-                // Autentica o usuário no banco de dados
-                User user = User.AuthenticateUser(username, password);
-
-                if (user != null)
-                {
-                    user.UpdateLastLogin(); // Atualiza o último login
-                    MessageBox.Show($"Bem-vindo {user.Username}!");
-
-                    OpenMainForm(); // Abre o formulário principal
                 }
                 else
                 {
-                    MessageBox.Show("Usuário ou senha incorretos!");
+                    MessageBox.Show($"Bem-vindo {user.Username}!");
+                    OpenMainForm();
                 }
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Erro ao efetuar login: " + ex.Message);
+                MessageBox.Show("Utilizador ou senha incorretos!");
             }
+        }
+
+        private void btn_login_Click(object sender, EventArgs e)
+        {
+            LoginApp();
         }
 
         private void OpenMainForm()
         {
             Main mainForm = new Main();
             mainForm.Show();
-            this.Hide(); // Fecha o formulário de login
+            this.Hide();  
+        }
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            Form_EditOccurrence formEditOccurrence = new Form_EditOccurrence();
+            var result = formEditOccurrence.ShowDialog();
         }
 
-        private void btn_exit_Click(object sender, EventArgs e)
+        private void Login_Load(object sender, EventArgs e)
         {
-            Application.Exit();
+
         }
     }
 }

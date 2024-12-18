@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace POO_TypeResource
+namespace POO.TypeResources
 {
     public abstract class TypeResource
     {

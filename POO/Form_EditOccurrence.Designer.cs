@@ -44,7 +44,9 @@
             txt_id = new TextBox();
             dt_date = new DateTimePicker();
             label4 = new Label();
+            btx_gps = new PictureBox();
             ((System.ComponentModel.ISupportInitialize)btx_ok).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)btx_gps).BeginInit();
             SuspendLayout();
             // 
             // btx_ok
@@ -69,6 +71,7 @@
             cbx_zipcode.Name = "cbx_zipcode";
             cbx_zipcode.Size = new Size(163, 23);
             cbx_zipcode.TabIndex = 27;
+            cbx_zipcode.SelectedIndexChanged += cbx_zipcode_SelectedIndexChanged;
             // 
             // label7
             // 
@@ -203,6 +206,19 @@
             label4.TabIndex = 42;
             label4.Text = "Data";
             // 
+            // btx_gps
+            // 
+            btx_gps.BackColor = Color.Transparent;
+            btx_gps.Cursor = Cursors.Hand;
+            btx_gps.Image = (Image)resources.GetObject("btx_gps.Image");
+            btx_gps.Location = new Point(346, 118);
+            btx_gps.Name = "btx_gps";
+            btx_gps.Size = new Size(24, 23);
+            btx_gps.SizeMode = PictureBoxSizeMode.StretchImage;
+            btx_gps.TabIndex = 43;
+            btx_gps.TabStop = false;
+            btx_gps.Click += btx_gps_Click;
+            // 
             // Form_EditOccurrence
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -211,6 +227,7 @@
             BackgroundImage = (Image)resources.GetObject("$this.BackgroundImage");
             BackgroundImageLayout = ImageLayout.Stretch;
             ClientSize = new Size(463, 400);
+            Controls.Add(btx_gps);
             Controls.Add(dt_date);
             Controls.Add(label4);
             Controls.Add(btx_ok);
@@ -226,11 +243,14 @@
             Controls.Add(txt_city);
             Controls.Add(txt_household);
             Controls.Add(txt_id);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(1);
+            MaximizeBox = false;
             Name = "Form_EditOccurrence";
             Text = "Editar Ocorrência";
             Load += Form_EditOccurrence_Load;
             ((System.ComponentModel.ISupportInitialize)btx_ok).EndInit();
+            ((System.ComponentModel.ISupportInitialize)btx_gps).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -251,5 +271,6 @@
         private TextBox txt_id;
         private DateTimePicker dt_date;
         private Label label4;
+        private PictureBox btx_gps;
     }
 }

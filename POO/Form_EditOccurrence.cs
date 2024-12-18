@@ -1,13 +1,6 @@
-﻿using POO_Occurrence;
-using POO_ZipCodes;
+﻿using POO.Occurrences;
+using POO.ZipCodes;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace POO
@@ -15,17 +8,28 @@ namespace POO
     public partial class Form_EditOccurrence : Form
     {
         public int? OccurrenceId { get; set; }
+
         public Form_EditOccurrence(int? occurrenceId = null)
         {
             InitializeComponent();
             OccurrenceId = occurrenceId;
         }
 
+        private void Form_EditOccurrence_Load(object sender, EventArgs e)
+        {
+            // Aqui pode-se carregar os dados necessários, por exemplo, para ZipCodes, se necessário.
+            LoadZipCode();
+            //if (OccurrenceId.HasValue)
+            //{
+            //    LoadOc(ResourceId.Value);
+            //}
+        }
+
         private void LoadZipCode()
         {
             try
             {
-                List<ZipCodes> zipCodes = ZipCodes.GetZipCodes();
+                List<ZipCode> zipCodes = ZipCode.GetZipCodes();
                 cbx_zipcode.DataSource = zipCodes;
                 cbx_zipcode.DisplayMember = "CodigoPostal";
                 cbx_zipcode.ValueMember = "CodigoPostal";
@@ -55,8 +59,7 @@ namespace POO
                     );
 
                     occurrence.Date = dt_date.Value; // Definindo a data da ocorrência
-
-                    occurrence.CreateOccurrence(); // Chama o método CreateOccurrence para inserir no BD
+                    occurrence.CreateOccurrence();  // Chama o método CreateOccurrence para inserir no BD
                     MessageBox.Show("Ocorrência adicionada com sucesso!");
                 }
                 else // Atualizar ocorrência existente
@@ -71,8 +74,7 @@ namespace POO
                     );
 
                     occurrence.Date = dt_date.Value; // Atualiza a data da ocorrência
-
-                    occurrence.UpdateOccurrence(); // Chama o método UpdateOccurrence para atualizar no BD
+                    occurrence.UpdateOccurrence();  // Chama o método UpdateOccurrence para atualizar no BD
                     MessageBox.Show("Ocorrência atualizada com sucesso!");
                 }
 
@@ -83,43 +85,46 @@ namespace POO
             {
                 MessageBox.Show("Erro ao guardar a ocorrência: " + ex.Message);
             }
-
         }
-        private void LoadOcccurrenceData(int id)
+
+        private void btx_gps_Click(object sender, EventArgs e)
         {
             try
             {
-                // Obter a ocorrência pelo ID
-                Occurrence occurrence = Occurrence.GetOccurrenceById(id);
-
-                if (occurrence != null)
+                var location = GetCoordinates();
+                if (location != null)
                 {
-                    // Preencher os campos do formulário com os dados da ocorrência
-                    txt_id.Text = occurrence.Id.ToString(); // Preenche o ID
-                    txt_description.Text = occurrence.Description; // Descrição
-                    txt_coordinates.Text = occurrence.Coordinates; // Coordenadas
-                    txt_household.Text = occurrence.Household; // Morada
-                    cbx_zipcode.Text = occurrence.ZipCode; // Código postal
-                    dt_date.Value = occurrence.Date; // Data da ocorrência
+                    // Preenche o campo txt_coordinates com a latitude e longitude
+                    txt_coordinates.Text = $"{location.Item1.ToString().Replace(",", ".")}, {location.Item2.ToString().Replace(",", ".")}";
+                    MessageBox.Show("Coordenadas obtidas com sucesso!");
                 }
                 else
                 {
-                    MessageBox.Show("Ocorrência não encontrada.");
+                    MessageBox.Show("Não foi possível obter as coordenadas.");
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao carregar os dados da ocorrência: " + ex.Message);
+                MessageBox.Show("Erro ao obter as coordenadas: " + ex.Message);
             }
         }
 
-        private void Form_EditOccurrence_Load(object sender, EventArgs e)
+        // Simulação de captura de coordenadas (poderia ser substituída por uma API de geolocalização)
+        private Tuple<double, double> GetCoordinates()
         {
-            LoadZipCode();
-            //LoadTypeResource();
-            if (OccurrenceId.HasValue)
+            // Gerando coordenadas aleatórias para simulação
+            Random random = new Random();
+            double latitude = random.NextDouble() * (90 - (-90)) + (-90); // Latitude entre -90 e 90
+            double longitude = random.NextDouble() * (180 - (-180)) + (-180); // Longitude entre -180 e 180
+
+            return new Tuple<double, double>(latitude, longitude);
+        }
+        private void cbx_zipcode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbx_zipcode.SelectedItem != null)
             {
-                LoadOcccurrenceData(OccurrenceId.Value);
+                ZipCode zipSelecionado = (ZipCode)cbx_zipcode.SelectedItem;
+                txt_city.Text = zipSelecionado.Cidade;
             }
         }
     }

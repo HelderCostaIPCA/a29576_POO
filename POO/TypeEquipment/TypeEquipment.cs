@@ -2,72 +2,62 @@
 using System;
 using System.Collections.Generic;
 
-namespace POO.Equipments
+namespace POO.TypeEquipments
 {
-    public class Equipment
+    public class TypeEquipment
     {
         public int Id { get; set; }
         public string Description { get; set; }
-        public string SerialNumber { get; set; }
         public bool Enable { get; set; }
-        public int EquipmentTypeId { get; set; }
-        public bool Available { get; set; }
 
+        // Definir a string de conexão com o banco de dados
         public static string connectionString = "Data Source=PT-DSI-HC1\\SQLEXPRESS;Initial Catalog=POO_CivilProtection;Integrated Security=True;Encrypt=False;";
 
-        public Equipment(int id, string description, string serialNumber, bool enable, int equipmentTypeId, bool available)
+        // Construtor da classe
+        public TypeEquipment(int id, string description, bool enable)
         {
             Id = id;
             Description = description;
-            SerialNumber = serialNumber;
             Enable = enable;
-            EquipmentTypeId = equipmentTypeId;
-            Available = available;
         }
 
-        // Método para criar um novo equipamento
+        // Método para criar um novo TypeEquipment
         public void Create()
         {
             using (SqlConnection conexao = new SqlConnection(connectionString))
             {
-                string query = "INSERT INTO Equipments (Description, [Serial Number], [Enable], [ID Equipment Type], [Available]) VALUES (@Description, @SerialNumber, @Enable, @EquipmentTypeId, @Available)";
+                string query = "INSERT INTO [Equipments Types] (Description, [Enable]) VALUES (@Description, @Enable)";
                 SqlCommand comando = new SqlCommand(query, conexao);
                 comando.Parameters.AddWithValue("@Description", Description);
-                comando.Parameters.AddWithValue("@SerialNumber", SerialNumber);
                 comando.Parameters.AddWithValue("@Enable", Enable);
-                comando.Parameters.AddWithValue("@EquipmentTypeId", EquipmentTypeId);
-                comando.Parameters.AddWithValue("@Available", Available);
 
                 conexao.Open();
                 comando.ExecuteNonQuery();
             }
         }
 
-        // Método para atualizar um equipamento
+        // Método para atualizar um TypeEquipment existente
         public void Update()
         {
             using (SqlConnection conexao = new SqlConnection(connectionString))
             {
-                string query = "UPDATE Equipments SET Description = @Description, [Serial Number] = @SerialNumber, [Enable] = @Enable, [ID Equipment Type] = @EquipmentTypeId, [Available] = @Available WHERE ID = @Id";
+                string query = "UPDATE [Equipments Types] SET Description = @Description, [Enable] = @Enable WHERE ID = @Id";
                 SqlCommand comando = new SqlCommand(query, conexao);
                 comando.Parameters.AddWithValue("@Id", Id);
                 comando.Parameters.AddWithValue("@Description", Description);
-                comando.Parameters.AddWithValue("@SerialNumber", SerialNumber);
                 comando.Parameters.AddWithValue("@Enable", Enable);
-                comando.Parameters.AddWithValue("@EquipmentTypeId", EquipmentTypeId);
-                comando.Parameters.AddWithValue("@Available", Available);
 
                 conexao.Open();
                 comando.ExecuteNonQuery();
             }
         }
 
-        // Método para excluir um equipamento
+        // Método para excluir um TypeEquipment
         public void Delete()
         {
             using (SqlConnection conexao = new SqlConnection(connectionString))
             {
-                string query = "DELETE FROM Equipments WHERE ID = @Id";
+                string query = "DELETE FROM [Equipments Types] WHERE ID = @Id";
                 SqlCommand comando = new SqlCommand(query, conexao);
                 comando.Parameters.AddWithValue("@Id", Id);
 
@@ -76,45 +66,40 @@ namespace POO.Equipments
             }
         }
 
-        // Método para buscar todos os equipamentos
-        public static List<Equipment> ReadAll()
+        // Método para ler todos os TypeEquipments
+        public static List<TypeEquipment> ReadAll()
         {
-            List<Equipment> lista = new List<Equipment>();
+            List<TypeEquipment> lista = new List<TypeEquipment>();
 
             using (SqlConnection conexao = new SqlConnection(connectionString))
             {
-                string query = "SELECT ID, Description, [Serial Number] AS SerialNumber, [Enable], [ID Equipment Type] AS EquipmentTypeId, [Available] FROM Equipments";
-
+                string query = "SELECT ID, Description, [Enable] FROM [Equipments Types]";
                 SqlCommand comando = new SqlCommand(query, conexao);
                 conexao.Open();
                 SqlDataReader leitor = comando.ExecuteReader();
 
                 while (leitor.Read())
                 {
-                    Equipment equipamento = new Equipment(
+                    TypeEquipment typeEquipment = new TypeEquipment(
                         Convert.ToInt32(leitor["ID"]),
                         leitor["Description"].ToString(),
-                        leitor["SerialNumber"].ToString(),
-                        Convert.ToBoolean(leitor["Enable"]),
-                        Convert.ToInt32(leitor["EquipmentTypeId"]),
-                        Convert.ToBoolean(leitor["Available"])
+                        Convert.ToBoolean(leitor["Enable"])
                     );
-                    lista.Add(equipamento);
+                    lista.Add(typeEquipment);
                 }
             }
 
             return lista;
         }
 
-        // Método para buscar um equipamento por ID
-        public static Equipment ReadById(int id)
+        // Método para ler um TypeEquipment por ID
+        public static TypeEquipment ReadById(int id)
         {
-            Equipment equipamento = null;
+            TypeEquipment typeEquipment = null;
 
             using (SqlConnection conexao = new SqlConnection(connectionString))
             {
-                string query = "SELECT ID, Description, [Serial Number] AS SerialNumber, [Enable], [ID Equipment Type] AS EquipmentTypeId, [Available] FROM Equipments WHERE ID = @Id";
-
+                string query = "SELECT ID, Description, [Enable] FROM [Equipments Types] WHERE ID = @Id";
                 SqlCommand comando = new SqlCommand(query, conexao);
                 comando.Parameters.AddWithValue("@Id", id);
 
@@ -123,18 +108,15 @@ namespace POO.Equipments
 
                 if (leitor.Read())
                 {
-                    equipamento = new Equipment(
+                    typeEquipment = new TypeEquipment(
                         Convert.ToInt32(leitor["ID"]),
                         leitor["Description"].ToString(),
-                        leitor["SerialNumber"].ToString(),
-                        Convert.ToBoolean(leitor["Enable"]),
-                        Convert.ToInt32(leitor["EquipmentTypeId"]),
-                        Convert.ToBoolean(leitor["Available"])
+                        Convert.ToBoolean(leitor["Enable"])
                     );
                 }
             }
 
-            return equipamento;
+            return typeEquipment;
         }
     }
 }

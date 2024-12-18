@@ -1,5 +1,5 @@
-﻿using POO_Resources;
-using POO_TypeResource;
+﻿using POO.Resources;
+using POO.TypeResources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

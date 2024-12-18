@@ -1,6 +1,6 @@
 ﻿namespace POO
 {
-    partial class Form_Edit_Resource
+    partial class Form_EditResource
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Edit_Resource));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_EditResource));
             txt_id = new TextBox();
             txt_household = new TextBox();
             txt_city = new TextBox();
@@ -255,7 +255,9 @@
             Controls.Add(txt_city);
             Controls.Add(txt_household);
             Controls.Add(txt_id);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(1);
+            MaximizeBox = false;
             Name = "Form_Edit_Resource";
             Text = "Editar Recurso";
             Load += Form_Edit_Resource_Load;
