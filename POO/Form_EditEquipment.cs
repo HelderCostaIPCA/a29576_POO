@@ -36,8 +36,7 @@ namespace POO
                     txt_description.Text = equipment.Description;
                     txt_serialNumber.Text = equipment.SerialNumber;
                     cbx_Enable.Checked = equipment.Enable;
-                    // Selecionar o tipo de equipamento na ComboBox usando o ID
-                    cbx_equipmentType.SelectedItem = cbx_equipmentType.Items.Cast<TypeEquipment>()
+                   cbx_equipmentType.SelectedItem = cbx_equipmentType.Items.Cast<TypeEquipment>()
                         .FirstOrDefault(type => type.Id == equipment.EquipmentTypeId);
                     cbx_available.Checked = equipment.Available;
                 }
@@ -56,19 +55,16 @@ namespace POO
         {
             try
             {
-                // Chama o método ReadAll da classe TypeEquipment para pegar todos os tipos de equipamentos do banco
                 List<TypeEquipment> equipmentTypes = TypeEquipment.ReadAll();
 
-                // Adiciona os tipos de equipamentos na ComboBox
                 foreach (var type in equipmentTypes)
                 {
                     cbx_equipmentType.Items.Add(type);
                 }
 
-                // Opcional: Se a ComboBox estiver vazia, adiciona um item de seleção padrão
                 if (cbx_equipmentType.Items.Count > 0)
                 {
-                    cbx_equipmentType.SelectedIndex = 0;  // Seleciona o primeiro item por padrão
+                    cbx_equipmentType.SelectedIndex = 0; 
                 }
             }
             catch (Exception ex)
@@ -81,30 +77,30 @@ namespace POO
         {
             try
             {
-                TypeEquipment selectedType = (TypeEquipment)cbx_equipmentType.SelectedItem;  // Pega o tipo selecionado
-                int selectedTypeId = selectedType?.Id ?? 0; // Caso o item selecionado seja nulo, define 0 como fallback
+                TypeEquipment selectedType = (TypeEquipment)cbx_equipmentType.SelectedItem; 
+                int selectedTypeId = selectedType?.Id ?? 0; 
 
-                if (!EquipmentId.HasValue) // Criar novo equipamento
+                if (!EquipmentId.HasValue)
                 {
                     Equipment equipment = new Equipment(
                         0,
                         txt_description.Text,
                         txt_serialNumber.Text,
                         cbx_Enable.Checked,
-                        selectedTypeId,  // Usando o ID do tipo de equipamento selecionado
+                        selectedTypeId, 
                         cbx_available.Checked
                     );
                     equipment.Create();
                     MessageBox.Show("Equipamento adicionado com sucesso!");
                 }
-                else // Atualizar equipamento existente
+                else
                 {
                     Equipment equipment = new Equipment(
                         int.Parse(txt_id.Text),
                         txt_description.Text,
                         txt_serialNumber.Text,
                         cbx_Enable.Checked,
-                        selectedTypeId,  // Usando o ID do tipo de equipamento selecionado
+                        selectedTypeId, 
                         cbx_available.Checked
                     );
                     equipment.Update();
@@ -116,7 +112,7 @@ namespace POO
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao salvar o equipamento: " + ex.Message);
+                MessageBox.Show("Erro ao guardar o equipamento: " + ex.Message);
             }
         }
     }

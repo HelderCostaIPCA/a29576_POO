@@ -22,7 +22,7 @@ public class UsersController : BaseController
         }
         catch (Exception ex)
         {
-            MessageBox.Show("Erro ao carregar os usuários: " + ex.Message);
+            MessageBox.Show("Erro ao carregar os utilizadores: " + ex.Message);
         }
     }
 }

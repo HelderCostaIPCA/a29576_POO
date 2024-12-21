@@ -8,11 +8,7 @@ using System.Windows.Forms;
 
 public class CreatclickController
 {
-    /// <summary>
-    /// Método genérico para abrir formulários e executar ações com base na seleção.
-    /// </summary>
-    /// <param name="selected">A string que determina qual formulário abrir.</param>
-    public void HandleSelection(string selected, DataGridView dataGridView)
+      public void HandleSelection(string selected, DataGridView dataGridView)
     {
         switch (selected)
         {
@@ -49,12 +45,7 @@ public class CreatclickController
         }
     }
 
-    /// <summary>
-    /// Método genérico que abre o formulário e executa uma ação se o resultado for DialogResult.OK.
-    /// </summary>
-    /// <param name="form">O formulário a ser exibido.</param>
-    /// <param name="action">A ação a ser executada após o formulário ser confirmado.</param>
-    private void OpenFormAndLoadData(Form form, Action action)
+      private void OpenFormAndLoadData(Form form, Action action)
     {
         var result = form.ShowDialog();
         if (result == DialogResult.OK)

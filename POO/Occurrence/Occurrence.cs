@@ -39,7 +39,6 @@ namespace POO.Occurrences
             AllocatedEquipments.Add(equipment);
         }
 
-        // Insere uma nova ocorrência no banco de dados
         public void CreateOccurrence()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -61,7 +60,6 @@ namespace POO.Occurrences
             }
         }
 
-        // Obtém todas as ocorrências do banco de dados
         public static List<Occurrence> GetAllOccurrences()
         {
             List<Occurrence> occurrences = new List<Occurrence>();
@@ -93,7 +91,6 @@ namespace POO.Occurrences
             return occurrences;
         }
 
-        // Atualiza uma ocorrência no banco de dados
         public void UpdateOccurrence()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -115,7 +112,6 @@ namespace POO.Occurrences
             }
         }
 
-        // Exclui uma ocorrência do banco de dados
         public static void DeleteOccurrence(int id)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -131,7 +127,6 @@ namespace POO.Occurrences
             }
         }
 
-        // Obtém uma ocorrência específica pelo ID
         public static Occurrence GetOccurrenceById(int id)
         {
             Occurrence occurrence = null;

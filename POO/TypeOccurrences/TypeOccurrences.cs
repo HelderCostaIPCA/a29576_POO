@@ -8,11 +8,10 @@ namespace POO.TypeOccurrences
     {
         public int Id { get; set; }
         public string Description { get; set; }
-        public int IdResourceType { get; set; } // Referência para o tipo de recurso
+        public int IdResourceType { get; set; }
 
         public static string connectionString = "Data Source=PT-DSI-HC1\\SQLEXPRESS;Initial Catalog=POO_CivilProtection;Integrated Security=True;Encrypt=False;";
 
-        // Construtor da classe
         public TypeOccurrence(int id, string description, int idResourceType)
         {
             Id = id;
@@ -20,7 +19,6 @@ namespace POO.TypeOccurrences
             IdResourceType = idResourceType;
         }
 
-        // Método para buscar todas as ocorrências do banco de dados
         public static List<TypeOccurrence> ReadAll()
         {
             List<TypeOccurrence> occurrences = new List<TypeOccurrence>();
@@ -49,7 +47,6 @@ namespace POO.TypeOccurrences
             return occurrences;
         }
 
-        // Método para criar uma nova ocorrência no banco de dados
         public void Create()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -67,7 +64,6 @@ namespace POO.TypeOccurrences
             }
         }
 
-        // Método para atualizar os dados de uma ocorrência no banco de dados
         public void Update()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -86,7 +82,6 @@ namespace POO.TypeOccurrences
             }
         }
 
-        // Método para excluir uma ocorrência no banco de dados
         public void Delete()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -103,7 +98,6 @@ namespace POO.TypeOccurrences
             }
         }
 
-        // Método para buscar uma única ocorrência pelo ID
         public static TypeOccurrence ReadById(int id)
         {
             TypeOccurrence occurrence = null;

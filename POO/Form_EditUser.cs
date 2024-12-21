@@ -39,11 +39,11 @@ namespace POO
                 txt_username.Text = user.Username;
                 txt_password.Text = user.Password;
                 txt_mail.Text = user.Mail;
-                cbx_Enable.Checked = user.Enable; // Supondo que temos um campo para indicar se o usuário está ativo
+                cbx_Enable.Checked = user.Enable; 
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao carregar os dados do usuário: " + ex.Message);
+                MessageBox.Show("Erro ao carregar os dados do utilizador: " + ex.Message);
             }
         }
 
@@ -54,29 +54,29 @@ namespace POO
                 if (!UserId.HasValue)
                 {
                     User newUser = new User(
-                    0,           // ID do usuário
-                    txt_username.Text,                // Nome de usuário
-                    txt_password.Text,                // Senha
-                    txt_mail.Text,                    // E-mail
-                    null,                             // Último login (null se não for usado)
-                    cbx_Enable.Checked                // Ativo
+                    0,         
+                    txt_username.Text,            
+                    txt_password.Text,           
+                    txt_mail.Text,                  
+                    null,                          
+                    cbx_Enable.Checked             
                     );
 
-                    newUser.CreateUser();  // Criar novo usuário
-                    MessageBox.Show("Usuário adicionado com sucesso!");
+                    newUser.CreateUser();
+                    MessageBox.Show("Utilizador adicionado com sucesso!");
                 }
                 else
                 {
                     User existingUser = new User(
-                    int.Parse(txt_id.Text),           // ID do usuário
-                    txt_username.Text,                // Nome de usuário
-                    txt_password.Text,                // Senha
-                    txt_mail.Text,                    // E-mail
-                    null,                             // Último login (null se não for usado)
-                    cbx_Enable.Checked                // Ativo
+                    int.Parse(txt_id.Text),          
+                    txt_username.Text,              
+                    txt_password.Text,              
+                    txt_mail.Text,                  
+                    null,                           
+                    cbx_Enable.Checked           
                     );
-                    existingUser.UpdateUser();  // Atualizar o usuário existente
-                    MessageBox.Show("Usuário atualizado com sucesso!");
+                    existingUser.UpdateUser(); 
+                    MessageBox.Show("Utilizador atualizado com sucesso!");
                 }
 
                 this.DialogResult = DialogResult.OK;
@@ -84,7 +84,7 @@ namespace POO
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao salvar os dados do usuário: " + ex.Message);
+                MessageBox.Show("Erro ao guardar os dados do utilizador: " + ex.Message);
             }
         }
     }

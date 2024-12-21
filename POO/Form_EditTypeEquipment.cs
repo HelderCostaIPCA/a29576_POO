@@ -8,12 +8,12 @@ namespace POO
 {
     public partial class Form_EditTypeEquipment : Form
     {
-        public int? EquipmentTypeId { get; set; } // ID opcional para edição
+        public int? EquipmentTypeId { get; set; }
 
         public Form_EditTypeEquipment(int? equipmentTypeId = null)
         {
             InitializeComponent();
-            EquipmentTypeId = equipmentTypeId; // Define o ID se estiver editando
+            EquipmentTypeId = equipmentTypeId; 
         }
 
         private void Form_EditTypeEquipment_Load(object sender, EventArgs e)
@@ -24,15 +24,12 @@ namespace POO
             }
         }
 
-        // Método para carregar os dados do tipo de equipamento no formulário para edição
         private void LoadEquipmentTypeData(int id)
         {
             try
             {
-                // Aqui estamos buscando o TypeEquipment pelo seu ID
                 TypeEquipment equipmentType = TypeEquipment.ReadById(id);
 
-                // Preencher os campos do formulário com os dados recuperados
                 txt_id.Text = equipmentType.Id.ToString();
                 txt_description.Text = equipmentType.Description;
                 cbx_enable.Checked = equipmentType.Enable;
@@ -43,30 +40,28 @@ namespace POO
             }
         }
 
-        // Botão OK para salvar ou atualizar o tipo de equipamento
         private void btx_ok_Click(object sender, EventArgs e)
         {
             try
             {
-                if (!EquipmentTypeId.HasValue) // Criar novo tipo de equipamento
+                if (!EquipmentTypeId.HasValue)
                 {
-                    // Criar um novo TypeEquipment
+                 
                     TypeEquipment equipmentType = new TypeEquipment(
                         0,
                         txt_description.Text,
-                        cbx_enable.Checked // Se o tipo de equipamento está habilitado ou não
+                        cbx_enable.Checked 
                     );
 
                     equipmentType.Create();
                     MessageBox.Show("Tipo de Equipamento adicionado com sucesso!");
                 }
-                else // Atualizar um tipo de equipamento existente
+                else 
                 {
-                    // Atualizar o TypeEquipment existente
                     TypeEquipment equipmentType = new TypeEquipment(
                         int.Parse(txt_id.Text),
                         txt_description.Text,
-                        cbx_enable.Checked // Se o tipo de equipamento está habilitado ou não
+                        cbx_enable.Checked 
                     );
 
                     equipmentType.Update();
@@ -78,7 +73,7 @@ namespace POO
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao salvar o tipo de equipamento: " + ex.Message);
+                MessageBox.Show("Erro ao guardar o tipo de equipamento: " + ex.Message);
             }
         }
     }

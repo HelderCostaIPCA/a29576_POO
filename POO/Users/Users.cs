@@ -11,7 +11,7 @@ namespace POO.Users
         public string Password { get; set; }
         public string Mail { get; set; } 
         public DateTime? LastLogin { get; set; } 
-        public bool Enable { get; set; } // Novo campo Enable
+        public bool Enable { get; set; }
 
         public static string connectionString = "Data Source=PT-DSI-HC1\\SQLEXPRESS;Initial Catalog=POO_CivilProtection;Integrated Security=True;Encrypt=False;";
 
@@ -22,10 +22,9 @@ namespace POO.Users
             Password = password;
             Mail = mail;
             LastLogin = lastLogin;
-            Enable = enable; // Inicializando o campo Enable
+            Enable = enable; 
         }
 
-        // Método para buscar todos os usuários do banco de dados
         public static List<User> GetAllUsers()
         {
             List<User> users = new List<User>();
@@ -41,8 +40,7 @@ namespace POO.Users
                     {
                         while (reader.Read())
                         {
-                            // Lê os dados, tratando a possibilidade de valores nulos para Last Acess
-                            User user = new User(
+                           User user = new User(
                                 reader.GetInt32(reader.GetOrdinal("ID")),
                                 reader.GetString(reader.GetOrdinal("Username")),
                                 reader.GetString(reader.GetOrdinal("Password")),
@@ -59,7 +57,6 @@ namespace POO.Users
         }
 
 
-        // Método para criar um novo usuário no banco de dados
         public void CreateUser()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -79,7 +76,6 @@ namespace POO.Users
             }
         }
 
-        // Método para atualizar os dados do usuário no banco de dados
         public void UpdateUser()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
@@ -92,7 +88,7 @@ namespace POO.Users
                     command.Parameters.AddWithValue("@Username", Username);
                     command.Parameters.AddWithValue("@Password", Password);
                     command.Parameters.AddWithValue("@Mail", Mail);
-                    command.Parameters.AddWithValue("@Enable", Enable); // Atualizando também o campo Enable
+                    command.Parameters.AddWithValue("@Enable", Enable); 
 
                     connection.Open();
                     command.ExecuteNonQuery();
@@ -100,7 +96,6 @@ namespace POO.Users
             }
         }
 
-        // Método para buscar um usuário pelo ID no banco de dados
         public static User ReadById(int id)
         {
             User user = null;
@@ -124,7 +119,7 @@ namespace POO.Users
                                 reader.GetString(reader.GetOrdinal("Password")),
                                 reader.IsDBNull(reader.GetOrdinal("Mail")) ? null : reader.GetString(reader.GetOrdinal("Mail")),
                                 reader.IsDBNull(reader.GetOrdinal("Last Acess")) ? (DateTime?)null : reader.GetDateTime(reader.GetOrdinal("Last Acess")),
-                                reader.GetBoolean(reader.GetOrdinal("Enable")) // Lê o campo Enable
+                                reader.GetBoolean(reader.GetOrdinal("Enable")) 
                             );
                         }
                     }
@@ -133,8 +128,7 @@ namespace POO.Users
             return user;
         }
 
-        // Método para atualizar a data do último login do usuário
-        public void UpdateLastLogin()
+       public void UpdateLastLogin()
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -151,7 +145,6 @@ namespace POO.Users
             }
         }
 
-        // Método para autenticar o usuário
         public static User AuthenticateUser(string username, string password)
         {
             User user = null;

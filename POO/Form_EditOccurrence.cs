@@ -17,12 +17,8 @@ namespace POO
 
         private void Form_EditOccurrence_Load(object sender, EventArgs e)
         {
-            // Aqui pode-se carregar os dados necessários, por exemplo, para ZipCodes, se necessário.
             LoadZipCode();
-            //if (OccurrenceId.HasValue)
-            //{
-            //    LoadOc(ResourceId.Value);
-            //}
+           
         }
 
         private void LoadZipCode()
@@ -47,34 +43,34 @@ namespace POO
         {
             try
             {
-                if (!OccurrenceId.HasValue) // Criar nova ocorrência
+                if (!OccurrenceId.HasValue)
                 {
-                    // Criar uma nova ocorrência
+                   
                     Occurrence occurrence = new Occurrence(
                         0,
-                        txt_description.Text,      // Descrição
-                        txt_coordinates.Text,      // Coordenadas
-                        txt_household.Text,        // Morada
-                        cbx_zipcode.Text           // Código Postal
+                        txt_description.Text,     
+                        txt_coordinates.Text,   
+                        txt_household.Text,     
+                        cbx_zipcode.Text        
                     );
 
-                    occurrence.Date = dt_date.Value; // Definindo a data da ocorrência
-                    occurrence.CreateOccurrence();  // Chama o método CreateOccurrence para inserir no BD
+                    occurrence.Date = dt_date.Value;
+                    occurrence.CreateOccurrence();
                     MessageBox.Show("Ocorrência adicionada com sucesso!");
                 }
-                else // Atualizar ocorrência existente
+                else
                 {
-                    // Atualizar uma ocorrência existente
+                    
                     Occurrence occurrence = new Occurrence(
-                        int.Parse(txt_id.Text),    // ID da Ocorrência (para o UPDATE)
-                        txt_description.Text,      // Descrição
-                        txt_coordinates.Text,      // Coordenadas
-                        txt_household.Text,        // Morada
-                        cbx_zipcode.Text           // Código Postal
+                        int.Parse(txt_id.Text),   
+                        txt_description.Text,      
+                        txt_coordinates.Text,      
+                        txt_household.Text,        
+                        cbx_zipcode.Text      
                     );
 
-                    occurrence.Date = dt_date.Value; // Atualiza a data da ocorrência
-                    occurrence.UpdateOccurrence();  // Chama o método UpdateOccurrence para atualizar no BD
+                    occurrence.Date = dt_date.Value;
+                    occurrence.UpdateOccurrence();
                     MessageBox.Show("Ocorrência atualizada com sucesso!");
                 }
 
@@ -94,7 +90,7 @@ namespace POO
                 var location = GetCoordinates();
                 if (location != null)
                 {
-                    // Preenche o campo txt_coordinates com a latitude e longitude
+                   
                     txt_coordinates.Text = $"{location.Item1.ToString().Replace(",", ".")}, {location.Item2.ToString().Replace(",", ".")}";
                     MessageBox.Show("Coordenadas obtidas com sucesso!");
                 }
@@ -109,13 +105,13 @@ namespace POO
             }
         }
 
-        // Simulação de captura de coordenadas (poderia ser substituída por uma API de geolocalização)
+        
         private Tuple<double, double> GetCoordinates()
         {
-            // Gerando coordenadas aleatórias para simulação
+            
             Random random = new Random();
-            double latitude = random.NextDouble() * (90 - (-90)) + (-90); // Latitude entre -90 e 90
-            double longitude = random.NextDouble() * (180 - (-180)) + (-180); // Longitude entre -180 e 180
+            double latitude = random.NextDouble() * (90 - (-90)) + (-90);
+            double longitude = random.NextDouble() * (180 - (-180)) + (-180); 
 
             return new Tuple<double, double>(latitude, longitude);
         }

@@ -6,24 +6,20 @@ namespace POO.Resources
 {
     public class Fireman : Resource
     {
-        // Construtor da classe Fireman, fixando o tipo como 2 (Fireman)
         public Fireman(int id, string name, int nif, DateTime dateOfBirth, string household, string zipCode, string city)
-            : base(id, name, nif, dateOfBirth, household, zipCode, city, 2) // O tipo 2 corresponde a Fireman
+            : base(id, name, nif, dateOfBirth, household, zipCode, city, 2)
         { }
 
-        // Método para criar um novo recurso de Fireman
         public void CreateFireman()
         {
-            Create();  // Isso cria um novo recurso no banco de dados com o tipo 2 (Fireman)
+            Create();
         }
 
-        // Método para editar um recurso de Fireman
         public void UpdateFireman()
         {
-            Update();  // Isso atualiza os dados no banco de dados para o recurso de Fireman
+            Update();
         }
 
-        // Método para ler um recurso de Fireman por ID
         public static Fireman ReadFiremanById(int id)
         {
             Resource recurso = Resource.ReadById(id);
@@ -36,14 +32,13 @@ namespace POO.Resources
             return null;
         }
 
-        // Método para ler todos os recursos de Fireman
         public static List<Fireman> ReadAllFiremen()
         {
             List<Fireman> lista = new List<Fireman>();
 
             using (SqlConnection conexao = new SqlConnection(connectionString))
             {
-                // Query que busca todos os recursos, mas filtra pelo tipo 2 (Fireman)
+
                 string query = "SELECT Id, Name, NIF, [Date of Birth] AS DateOfBirth, Household, [Zip Code] AS ZipCode, City, [ID Resource Type] AS Type FROM Resources WHERE [ID Resource Type] = 2";
 
                 SqlCommand comando = new SqlCommand(query, conexao);
@@ -56,7 +51,7 @@ namespace POO.Resources
                         ? Convert.ToDateTime(leitor["DateOfBirth"])
                         : DateTime.MinValue;
 
-                    // Cria um novo objeto Fireman com os dados retornados
+
                     Fireman recurso = new Fireman(
                         Convert.ToInt32(leitor["Id"]),
                         leitor["Name"].ToString(),
@@ -67,7 +62,7 @@ namespace POO.Resources
                         leitor["City"].ToString()
                     );
 
-                    // Adiciona o recurso à lista
+
                     lista.Add(recurso);
                 }
             }

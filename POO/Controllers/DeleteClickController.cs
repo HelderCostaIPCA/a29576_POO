@@ -11,11 +11,7 @@ using System.Windows.Forms;
 
 public class DeleteClickController
 {
-    /// <summary>
-    /// Método genérico para abrir formulários e executar ações com base na seleção.
-    /// </summary>
-    /// <param name="selected">A string que determina qual formulário abrir.</param>
-    public void HandleSelection(string selected,int selectedID, DataGridView dataGridView)
+     public void HandleSelection(string selected,int selectedID, DataGridView dataGridView)
     {
         switch (selected)
         {
@@ -25,18 +21,18 @@ public class DeleteClickController
                 {
                     DialogResult result = MessageBox.Show("Tem a certeza que pretende eliminar este recurso?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                    if (result == DialogResult.Yes) // Se o usuário clicar em "Sim"
+                    if (result == DialogResult.Yes) 
                     {
                             DerivedResources recurso = new DerivedResources(selectedID, "", 0, DateTime.Now, "", "", "", 0);
                             recurso.Delete();
-                            MessageBox.Show("Recurso excluído com sucesso!");
+                            MessageBox.Show("Recurso eliminado com sucesso!");
                             Load_DataGridViewResource(dataGridView);
                       
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Erro ao excluir o recurso: " + ex.Message);
+                    MessageBox.Show("Erro ao eliminar o recurso: " + ex.Message);
                 }
                 break;
 
@@ -45,18 +41,18 @@ public class DeleteClickController
                 {
                     DialogResult result = MessageBox.Show("Tem a certeza que pretende eliminar este tipo de recurso?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                    if (result == DialogResult.Yes) // Se o usuário clicar em "Sim"
+                    if (result == DialogResult.Yes)
                     {
                            DerivedTypeResources tiporecurso = new DerivedTypeResources(selectedID, "", false);
                             tiporecurso.Delete();
-                            MessageBox.Show("Recurso excluído com sucesso!");
+                            MessageBox.Show("Tipo de Recurso eliminado com sucesso!");
                             Load_DataGridViewTypeResource(dataGridView);
 
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Erro ao excluir o recurso: " + ex.Message);
+                    MessageBox.Show("Erro ao eliminado o tipo recurso: " + ex.Message);
                 }
                 break;
 
@@ -65,18 +61,18 @@ public class DeleteClickController
                 {
                     DialogResult result = MessageBox.Show("Tem a certeza que pretende eliminar esta ocorrência?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                    if (result == DialogResult.Yes) // Se o usuário clicar em "Sim"
+                    if (result == DialogResult.Yes) 
                     {
                       
-                            Occurrence.DeleteOccurrence(selectedID); // Chama o método estático para excluir a ocorrência
-                            MessageBox.Show("Ocorrência excluída com sucesso!");
-                            Load_DataGridViewOccurrence(dataGridView); // Recarrega o DataGridView após a exclusão
+                            Occurrence.DeleteOccurrence(selectedID);
+                            MessageBox.Show("Ocorrência eliminada com sucesso!");
+                            Load_DataGridViewOccurrence(dataGridView); 
 
                     }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Erro ao excluir a ocorrência: " + ex.Message);
+                    MessageBox.Show("Erro ao eliminar a ocorrência: " + ex.Message);
                 }
         break;
 
@@ -101,11 +97,6 @@ public class DeleteClickController
         }
     }
 
-    /// <summary>
-    /// Método genérico que abre o formulário e executa uma ação se o resultado for DialogResult.OK.
-    /// </summary>
-    /// <param name="form">O formulário a ser exibido.</param>
-    /// <param name="action">A ação a ser executada após o formulário ser confirmado.</param>
     private void OpenFormAndLoadData(Form form, Action action)
     {
         var result = form.ShowDialog();

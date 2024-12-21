@@ -107,7 +107,7 @@ namespace POO.Resources
                         leitor["Household"].ToString(),
                         leitor["ZipCode"].ToString(),
                         leitor["City"].ToString(),
-                        Convert.ToInt32(leitor["ID Resource Type"]) // Nome correto da coluna
+                        Convert.ToInt32(leitor["ID Resource Type"]) 
                     );
                 }
             }

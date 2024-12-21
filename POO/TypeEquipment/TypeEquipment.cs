@@ -10,10 +10,8 @@ namespace POO.TypeEquipments
         public string Description { get; set; }
         public bool Enable { get; set; }
 
-        // Definir a string de conexão com o banco de dados
         public static string connectionString = "Data Source=PT-DSI-HC1\\SQLEXPRESS;Initial Catalog=POO_CivilProtection;Integrated Security=True;Encrypt=False;";
 
-        // Construtor da classe
         public TypeEquipment(int id, string description, bool enable)
         {
             Id = id;
@@ -21,7 +19,6 @@ namespace POO.TypeEquipments
             Enable = enable;
         }
 
-        // Método para criar um novo TypeEquipment
         public void Create()
         {
             using (SqlConnection conexao = new SqlConnection(connectionString))
@@ -36,7 +33,6 @@ namespace POO.TypeEquipments
             }
         }
 
-        // Método para atualizar um TypeEquipment existente
         public void Update()
         {
             using (SqlConnection conexao = new SqlConnection(connectionString))
@@ -52,7 +48,6 @@ namespace POO.TypeEquipments
             }
         }
 
-        // Método para excluir um TypeEquipment
         public void Delete()
         {
             using (SqlConnection conexao = new SqlConnection(connectionString))
@@ -66,7 +61,6 @@ namespace POO.TypeEquipments
             }
         }
 
-        // Método para ler todos os TypeEquipments
         public static List<TypeEquipment> ReadAll()
         {
             List<TypeEquipment> lista = new List<TypeEquipment>();
@@ -92,7 +86,6 @@ namespace POO.TypeEquipments
             return lista;
         }
 
-        // Método para ler um TypeEquipment por ID
         public static TypeEquipment ReadById(int id)
         {
             TypeEquipment typeEquipment = null;

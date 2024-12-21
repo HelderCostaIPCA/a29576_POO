@@ -10,20 +10,18 @@ namespace POO.Controllers
         {
             try
             {
-                // Caso especial para o login de administrador
-                if (username == "admin" && password == "admin")
+              if (username == "admin" && password == "admin")
                 {
                     MessageBox.Show("Login de administrador bem-sucedido!");
                     user = null;
                     return true;
                 }
 
-                // Autenticar no banco de dados
-                user = User.AuthenticateUser(username, password);
+              user = User.AuthenticateUser(username, password);
 
                 if (user != null)
                 {
-                    user.UpdateLastLogin();  // Atualizar último login
+                    user.UpdateLastLogin();  
                     return true;
                 }
 

@@ -24,8 +24,6 @@ namespace POO.Equipments
             EquipmentTypeId = equipmentTypeId;
             Available = available;
         }
-
-        // Método para criar um novo equipamento
         public void Create()
         {
             using (SqlConnection conexao = new SqlConnection(connectionString))
@@ -43,7 +41,6 @@ namespace POO.Equipments
             }
         }
 
-        // Método para atualizar um equipamento
         public void Update()
         {
             using (SqlConnection conexao = new SqlConnection(connectionString))
@@ -62,7 +59,6 @@ namespace POO.Equipments
             }
         }
 
-        // Método para excluir um equipamento
         public void Delete()
         {
             using (SqlConnection conexao = new SqlConnection(connectionString))
@@ -76,7 +72,6 @@ namespace POO.Equipments
             }
         }
 
-        // Método para buscar todos os equipamentos
         public static List<Equipment> ReadAll()
         {
             List<Equipment> lista = new List<Equipment>();
@@ -106,7 +101,6 @@ namespace POO.Equipments
             return lista;
         }
 
-        // Método para buscar um equipamento por ID
         public static Equipment ReadById(int id)
         {
             Equipment equipamento = null;
